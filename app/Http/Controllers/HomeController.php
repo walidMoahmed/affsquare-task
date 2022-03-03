@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
+use App\Models\Table;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $reservations = Reservation::where('day', Carbon::now()->format('Y-m-d'))->orderBy('id', 'desc')->get();
+        $tables = Table::orderBy('id', 'desc')->get();
+
+        return view('dashboard',compact('reservations','tables'));
     }
 }
